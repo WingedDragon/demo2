@@ -1,0 +1,56 @@
+
+参考：https://neo4j.com/docs/cypher-refcard/3.2/
+
+1 创建节点
+
+    (1-1) 节点
+        * 节点
+            表达式：()
+            例子：() 空节点
+                 (n) n为该节点的变量名
+
+        * 节点+标签
+            表达式：(n:Label) 多标签 (n:Label1:Label2...:LabelN)
+            例子：(p:Person) (p:Person:Teacher:Father)
+
+        * 节点+属性
+            表达式：(n {properties})
+            例子：(p:Person {name:'a',age:10})
+
+
+    （1-2）创建节点
+        * 单节点
+            create (node_name:label_name {properties})
+            例子：create (p:Person {name:'a', age:10})
+
+        * 多节点
+            集合遍历 unwind
+            例子：UNWIND {persons} AS person CREATE (p:Person) set e.name = employee.name, e.age = employee.age
+
+    (1-3) 节点更新
+            match (e:Employee) where e.name = {name} set e.name = {newname}, e.age = {newage}  return e
+
+
+    (1-4) 属性更新/删除
+            match (e:Employee) where e.name = {name} set e.sex = {newsex} return e
+            match (e:Employee) where e.name = {name} set e.sex = NULL return e
+2 创建关系
+    （2-1）关系表示 [r:Rel_name]
+            match (n)-[r]->(m)
+            例子：match (n:Person)-[r]->(m:Phone) where n.name = 'xxx' return n, type(r), m
+
+
+3 查询图元素
+    （3-1）标签过滤
+        match (n:) where n:Label
+
+     (3-2) 属性过滤
+        * 属性值精确匹配
+            match (n:Label) where n.property = ?
+            match (n:Label) where n['property'] = ?
+
+        * 正则 =~ 【忽律大小写 case-insensitive (?i), 多行 multiline (?m) and 正则开头 dotall (?s).】
+            match (n:Person) where n.name =~ '(?i)p_1.*' return n
+
+        * 范围 in
+            match (n:Person) where n.name in ['x','x']

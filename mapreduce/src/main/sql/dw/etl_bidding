@@ -1,0 +1,20 @@
+set spark.sql.shuffle.partitions=200;
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+use dw;
+
+insert overwrite table dw.release_bidding partition(bdp_day)
+select
+    reqid,
+    sessionid,
+    device,
+    source,
+    ct,
+    if(isnull(exts['price']),NULL,cast(exts['price'] as decimal(2,1))) as price,
+    bdp_day
+from ods.release_sessions
+where
+    bdp_day = '${hiveconf:day_end}'
+and
+    status = '${hiveconf:status}'

@@ -1,0 +1,26 @@
+
+--1 创建数据库
+
+create database ods;
+
+create database dw;
+
+create database dm;
+
+--2 ods
+
+===ods 投放日志=========================================================================
+create external table if not exists ods.release_sessions(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  status string,
+  ct bigint,
+  exts map<string,string>
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/ods/release/'
+
+--增加分区
+alter table ods.release_sessions add partition (bdp_day='2018-07-15')

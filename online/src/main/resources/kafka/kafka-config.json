@@ -1,0 +1,10 @@
+{
+  "KAFKA_TOPICS": [
+    "dltest"
+  ],
+  "KAFKA_PROPERTIES": {
+    "bootstrap.servers": "localhost:9092,localhost:9093",
+    "zookeeper.connect": "localhost:2181/kafka",
+    "group.id": "release_group"
+  }
+}

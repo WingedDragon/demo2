@@ -1,0 +1,9 @@
+{
+  "url":"bolt://localhost:7687",
+  "user":"neo4j",
+  "pass":"finup",
+  "sessionSize": 50,
+  "connectTimeout":1000,
+  "transRetryTimeout":60000,
+  "batchCount":5000
+}

@@ -1,0 +1,13 @@
+{"namespace": "com.dl.avro.release",
+ "type": "record",
+ "name": "Release",
+ "fields": [
+     {"name":"reqid", "type":["string","null"]},
+     {"name":"sessionid", "type":["string","null"]},
+     {"name":"device", "type":["string","null"]},
+     {"name":"source", "type":["string","null"]},
+     {"name":"status", "type":["string","null"]},
+     {"name":"ct", "type":["long","null"]},
+     {"name":"exts", "type":["null",{"type":"map","values":"string"}]}
+ ]
+}

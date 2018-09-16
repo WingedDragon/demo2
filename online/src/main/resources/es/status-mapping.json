@@ -1,0 +1,33 @@
+{
+  "release_bidding": {
+    "00": [
+      "ut",
+      "status"
+    ],
+    "01": [
+      "ut",
+      "status"
+    ],
+    "02": [
+      "ut",
+      "bidding_count"
+    ],
+    "03": [
+      "ut",
+      "status"
+    ],
+    "04": [
+      "ut",
+      "status"
+    ],
+    "05": [
+      "ut",
+      "status"
+    ],
+    "06": [
+      "ut",
+      "status"
+    ]
+  }
+
+}

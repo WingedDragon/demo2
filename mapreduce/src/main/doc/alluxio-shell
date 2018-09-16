@@ -1,0 +1,5 @@
+1 alluxio format
+
+2 alluxio fs ls / (hdfs dfs -ls /)
+
+3 挂载 alluxio fs mount -readonly /hdfs_datas/ hdfs://finup:50070/demo/datas/

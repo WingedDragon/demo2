@@ -1,0 +1,168 @@
+(1) 投放业务
+
+(1-1) 原始数据
+列名,数据类型,描述
+uuid,string,"随机串"
+deviceNumType,string,"设备类型imei/idfa"
+deviceNum,string,"设备号"
+encryptDeviceNum,string,"加密设备号"
+sessionId,string,"投放会话id"
+source,string,"渠道"
+status,string,"投放流程环节：目标客户|非目标客户->竞价->曝光->点击->到达->注册->登陆"
+ct,bigint,"数据创建时间"
+planNo,string,"计划编号"
+extMap,map<string,string>,"扩展信息"
+bdp_day,string,"时间分区字段"
+
+例子：
+uuid -> f6a9875e-7ad9-4cb9-8878-a2df87bdd1f8
+deviceNumType -> IMEI
+deviceNum -> 866999999999999
+encryptDeviceNum -> d10000ecc000003c8a217892b00000e
+sessionId -> 6584605305727349580
+source -> 005(QQ)
+status -> 020
+ct -> 1533097891377
+extMap -> matterType - 物料类型
+          modelCode - 模型代码
+          modelVersion - 模型版本
+          modelRuleCode -
+          category -
+          bannerType - 广告位类型
+          bid - 广告位id
+          sid - 请求id
+bdp_day -> 20180801
+
+(1-2) 竞价数据
+列名,数据类型,描述
+uuid,string,"随机串"
+requestId,string,请求id
+sessionId,string,会话id
+devicenumType,string,设备类型
+deviceNum,string,设备号
+encryptDeviceNum,string,加密设备号
+status,string,竞价结果
+price,bigint,价格
+bannerType,string,广告位类型
+source,string,渠道
+ct,bigint,数据创建时间
+pricingType,string,竞价方式
+biddingType,string,竞价类型（PMP|RTB）
+bdp_day,string,时间分区字段
+
+例子：
+uuid,
+requestId -> fed57882-7c49-46de-a4c3-d6c733ba8fd9
+sessionId -> 6584768853132448850
+devicenumType -> IMEI
+deviceNum -> 866999999999999
+encryptDeviceNum -> d10000ecc000003c8a217892b00000e
+status -> 001 成功|002 失败
+price -> 6008
+bannerType ->
+source -> 005
+ct -> 1533135970687
+pricingType -> CPM
+biddingType -> RTB
+bdp_day -> 20180801
+
+
+
+===========================================================================================
+
+（2）APP埋点业务
+
+（2-1）埋点数据
+
+create external table ods.app_behavior(
+  appSessionId string comment 'app会话',
+  uniqueId string comment '虚拟设备id',
+  deviceNum string comment '设备号',
+  appVersion string comment 'app版本',
+  pageId string comment '页面id',
+  pageType string comment '页面类型',
+  os string comment '操作系统',
+  osVersion string comment '操作系统版本',
+  manufacturer string comment '制造商',
+  userId string comment '用户id',
+  carrier string comment '供应商',
+  networkType string comment '网络类型',
+  operateTime string comment '操作时间',
+  buryPointType string comment '埋点类型',
+  longitude string comment '经度',
+  latitude string comment '纬度',
+  address string comment '地址',
+  province string comment '省',
+  city string comment '市',
+  elementId string comment '页面元素',
+  eventType string comment '事件类型',
+  duration string comment '停留时长',
+  elementContent,"map<string,string>" comment '扩展信息',
+  ct bigint
+) partitioned by (bdp_date string)
+stored as parquet
+location '/ods/app/behavior/'
+
+--------------
+
+数据示例：
+appSessionId -> xxx
+uniqueId -> xxx
+deviceNum ->
+appVersion -> 1.0
+pageId -> 1
+pageType -> h5/native
+os -> android/ios
+osVersion -> 5.0
+manufacturer -> xiaomi
+userId -> 1000001
+carrier -> appVersion -> 1.0,
+networkType -> wifi
+ip -> 192.168.1.10
+operateTime -> 1533454565296
+buryPointType -> install安装/launch加载/click点击/exit退出/pageenter进入页面
+longitude -> 经度,
+latitude -> 纬度,
+address -> 地址,
+province -> 省,
+city -> 市,
+elementId -> 页面元素,
+eventType -> input输入/click点击/view浏览/slide滑动,
+duration -> 停留时长,
+elementContent -> 操作对象信息（如点击按钮、浏览产品） Map(amount -> 10)
+ct -> 创建时间
+bdp_date -> 时间分区
+
+
+===埋点日志_启动安装等非业务信息信息============================================================
+
+create external table if not exists mart_dw.app_behavior_nbusi(
+  os string comment '操作系统',
+  app_version string comment 'app版本',
+  burypoint_type string comment '埋点类型:baboonsInstall/baboonsLaunch',
+  business_type string comment '业务类型',
+  uniqueid string comment '设备唯一标示',
+  ct bigint comment '提交创建时间'
+)partitioned by (bdp_date string)
+stored as parquet
+location '/dw/app/behavior_launch/';
+
+
+
+===埋点日志_产品操作信息============================
+
+create external table if not exists mart_dw.app_behavior_busi(
+  os string comment '操作系统',
+  app_version string comment 'app版本',
+  business_type string comment '业务类型:借款、理财、信用卡',
+  event_type string comment '事件类型：浏览：view 点击：click',
+  page_type string comment '页面类型 原生：native H5：h5',
+  page_id string comment '页面ID|意向来源',
+  element_id string comment '元素ID',
+  product_id string comment '产品ID',
+  uniqueid string comment '设备唯一标示',
+  operate_time bigint comment '操作时间',
+  ct bigint comment '提交创建时间'
+)partitioned by (bdp_date string)
+stored as parquet
+location '/dw/app/behavior_product/';

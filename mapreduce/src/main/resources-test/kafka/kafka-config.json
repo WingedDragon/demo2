@@ -1,0 +1,10 @@
+{
+  "KAFKA_TOPICS": [
+    "release_topic"
+  ],
+  "KAFKA_PROPERTIES": {
+    "bootstrap.servers": "localhost:9092",
+    "zookeeper.connect": "localhost:2181/kafka",
+    "group.id": "release_calculate_esv6"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "config": [
+    {
+      "name": "es_release",
+      "index": "release_bidding",
+      "type": "release_bidding"
+    }
+  ]
+}

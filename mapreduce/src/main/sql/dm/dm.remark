@@ -1,0 +1,14 @@
+--4 数据集市
+
+（1）投放业务环节PUV
+select
+    bdp_day,
+    source,
+    count(distinct sessionid) as pv,
+    count(distinct device) as uv
+from dw.release_customer
+where
+    bdp_day between '${hiveconf:day_begin}' and '${hiveconf:day_end}'
+group by
+    bdp_day,
+    source

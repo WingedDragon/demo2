@@ -1,0 +1,70 @@
+
+--3 dw
+
+===非目标客户 status=00=========================================================================
+
+create external table if not exists dw.release_notcustomer(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  ct bigint,
+  bid string,
+  code string
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/dw/notcustomer/'
+
+
+===目标客户 status=01=========================================================================
+
+create external table if not exists dw.release_customer(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  ct bigint,
+  code string
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/dw/customer/'
+
+
+===竞价 status=02=========================================================================
+
+create external table if not exists dw.release_bidding(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  ct bigint,
+  price decimal(2,1)
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/dw/bidding/'
+
+
+===曝光 status=03=========================================================================
+
+create external table if not exists dw.release_show(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  ct bigint
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/dw/show/'
+
+
+===点击 status=04=========================================================================
+
+create external table if not exists dw.release_click(
+  reqid string,
+  sessionid string,
+  device string,
+  source string,
+  ct bigint
+) partitioned by (bdp_day string)
+stored as parquet
+location '/demo/dwh/dw/click/'

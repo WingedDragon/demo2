@@ -1,0 +1,12 @@
+{
+  "config": {
+    "cluster.name": "ff_es_6",
+    "client.transport.sniff": true
+  },
+  "address": [
+    {
+      "ip": "localhost",
+      "port": 9500
+    }
+  ]
+}

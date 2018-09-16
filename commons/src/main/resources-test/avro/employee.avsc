@@ -1,0 +1,16 @@
+{"namespace": "com.dl.avro.employee",
+ "type": "record",
+ "name": "Employee",
+ "fields": [
+     {"name":"id", "type":["string","null"]},
+     {"name":"num", "type":["int","null"]},
+     {"name":"name", "type":["string","null"]},
+     {"name":"age", "type":["int","null"]},
+     {"name":"birthday", "type":["string","null"]},
+     {"name":"nation", "type":["string","null"]},
+     {"name":"salary", "type":["double","null"]},
+     {"name":"loves", "type":{"type":"array","items":"string"}},
+     {"name":"info", "type":["string","null"]},
+     {"name":"family", "type":{"type":"map","values":"string"}}
+ ]
+}
